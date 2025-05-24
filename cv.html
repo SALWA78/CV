@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <meta charset="utf-8" >
+    <link rel="stylesheet" href="Bootstrap/node_modules/bootstrap/dist/css/Bootstrap.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.12.1/font/bootstrap-icons.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+</head>
+<body>
+    <div>
+        <div class="row g-3" style="margin-top: 5%;">
+            <div class="col" style="margin-left: 3%; ">
+              <input type="text" id="lastName" class="form-control" placeholder="Last name"   aria-label="Last name" >
+              <input type="text" id="firstName" class="form-control" placeholder="First name"  aria-label="First name" style="margin-top: 3%;">
+              <input type="text" id="specialityInput" class="form-control" placeholder="speciality" style="margin-top: 3%;">
+              <input type="text" id="descriptionInput" class="form-control" placeholder="Description" aria-label="Last name" style="margin-top: 3%;">
+              <div class="border border-secondary" style="margin-top: 3%; ">
+                <h3>FORMATION</h3>
+                <div  style="margin-top: 3%;"><ul id="mesFormations" class="list-group">
+                    <!--<li id="linFormation" class="list-group-item list-group-item-secondary">
+                        <p><strong id="pargFormation">licence fondamentale en sciences
+                            mathématiques et Informatique</strong> <br>
+                            <strong id="spacFormation" class="fw-light text-muted">Faculté des Sciences, Agadirs</strong><br>
+                            <strong id="datFormation" class="fw-normal ">2020-2023</strong>  
+                         </p>
+                    </li>-->
+                </ul>
+            </div>
+                <input type="text" id="formationInput" class="form-control" placeholder="Formations"  aria-label="Last name" style="margin-top: 3%;width: 80%; margin-left: 3%;">
+                <input type="text" id="faculteInput" class="form-control" placeholder="Faculté" style="margin-top: 3%; width: 80%; margin-left: 3%;" >
+                <input type="date" id="dateInput" class="form-control" placeholder="Date" style="margin-top: 3%; margin-bottom: 3%; width: auto; margin-left: 3%;" >
+                <!--<button id="add" onclick="addFormation()" style="margin-top: 3%; margin-bottom: 3%; width: auto; margin-left: 3%;">Add</button>-->
+                <button id="add" style="margin-top: 3%; margin-bottom: 3%; width: auto; margin-left: 3%;">Add</button>
+            </div>
+            <input type="text" id="experienceInput" class="form-control" placeholder="Experiences" aria-label="Last name" style="margin-top: 3%;">
+            </div>
+            <div class="col" style="margin-right: 2%;">
+              <input type="image" class="form-control" placeholder="photos" aria-label="Last name">
+              <input type="email" id="gmailInput" class="form-control" placeholder="Gmail" aria-label="Last name" style="margin-top: 3%;">
+              <input type="text" id="addressInput" class="form-control" placeholder="Address" aria-label="Last name" style="margin-top: 3%;">
+              <input type="tel" id="telInput" class="form-control" placeholder="Tel" aria-label="Last name" style="margin-top: 3%;">
+              <input type="text" id="competenceInput" class="form-control" placeholder="Compétences" aria-label="Last name" style="margin-top: 3%;">
+              <input type="text" id="langageInput" class="form-control" placeholder="langages" aria-label="Last name" style="margin-top: 3%;">
+              <button type="button" class="btn btn-secondary btn-lg" onclick="genererPDF()" style="margin-top:3%;">generate pdf</button>
+            </div>
+          </div>
+</div>
+    <div id="monCvHTML" class="container px-6">
+        
+        <div class="row">
+            <div class="col-4"  style=" margin-top: 70px;">
+                    <img src="assets/img/Capture12.PNG" class="img-thumbnail rounded float-end " >
+                 <div class=" mt-6"  >
+                 
+                        <h5 class="text-end mt-6" style=" border: none; border-bottom: 1px solid #000000; border-radius: 0;" >CONTACT</h5>
+                
+                        <p class="text-end lh-lg" style="margin-top: 20px;">
+                            <span id="tel" style="display: inline-block;"> 0662890580</span> <i class="bi bi-telephone-fill" style="margin-left: 10px;"></i><br>
+                            <span id="gmail" style="display: inline-block;"> salwa@gmail.com</span><i class="bi bi-envelope" style="margin-left: 10px;"></i><br>
+                            <span id="address" style="display: inline-block;"> Agadir.Chtouka </span><i class="bi bi-geo-alt-fill" style="margin-left: 10px;"></i></p>
+                    </div>
+                <div style="margin-top: 50px; "> 
+                    
+                    <h5 class="text-end" style="border: none; border-bottom: 1px solid #000000; border-radius: 0;">COMPÉTENCES</h5>
+                
+                    <p id="competence" class="lh-lg text-end" style="margin-top: 20px;" >
+                        Développement web
+                        Analyse de données
+                        Travail en équipe
+                        Gestion des bases de données
+                        Adaptabilité
+                    </p>
+                </div>
+                <div style="margin-top: 50px;">
+                    <h5 class="text-end text-uppercase" style="border: none; border-bottom: 1px solid #000000; border-radius: 0;"> langages</h5>
+                    <p class="lh-lg text-end" style="margin-top: 20px;"> 
+                        Français                      B2<br>
+                        Anglais                        B2<br>
+                        Allemand              Débutante
+                    </p>
+                 </div>
+            </div>
+          <div class="col-8" style=" margin-top: 50px; ">
+            <div class="" >
+                <h1 style="margin-top: 30px;" ><p  id="myLastName" class="text-capitalize">Hamzaoui</p> <p id="myFirstName" class="text-uppercase">SALWA</p></h1>  
+            </div> 
+                <div style="margin-top: 30px; " class="fw-bold">
+                    <em id="speciality" class="fs-6 text-uppercase  lh-lg " style="margin-bottom: 10px;">technicien D'informatique</em><br>
+                    <p id="description" class="fst-bolder lh-sm"> Salwa Hamzaoui, 25 ans, possède un double parcours académique en
+                        informatique et en mathématiques. Titulaire d'un Diplôme Supérieur en
+                        Informatique et d'une Licence en Sciences Mathématiques et
+                        Informatique, je suis capable de m'adapter rapidement à des
+                        environnements techniques variés et de résoudre des problèmes
+                        complexes.
+                    </p>
+                </div>
+                <div style="margin-top: 40px;">
+                    <h5 style="border: none;
+                    border-bottom: 1px solid #000000; 
+                    border-radius: 0;">FORMATION</h5>
+                    <div>
+                        <dl id="listFormationsHTML">
+                           <!-- <dt>
+                                <p><strong id="cvFormation" >licence fondamentale en sciences
+                                    mathématiques et Informatique</strong> <br>
+                                    <strong id="cvFaculte" class="fw-light text-muted">Faculté des Sciences, Agadirs</strong><br>
+                                    <strong id="cvDate" class="fw-normal ">2020-2023</strong> 
+                                    
+                                 </p>
+
+                                </dt>>-->
+                        </dl>
+                    
+                </div>
+                <div>
+                    <h5 style="border: none; border-bottom: 1px solid #000000; border-radius: 0;"> EXPÉRIENCESPROFESSIONNELLES</h5>
+                    <div>
+                    <h6 class="fw-bold"> Projet de fin d’études  - Faculte des Sciences, Agadir</h6>
+                    <p> Juil. 2023 </p>
+                    <p><ul><li>Réalisation d’un site web d’e-Commerce.</li>
+                        <li>Technologies: React js, firebase, JavaScript, Html, CSS, Trello,
+                        Scrum, Figma.</li>
+                    </ul>
+                    </p>
+                </div>
+                <div>
+                    <h6 class="fw-bold"> Projet de fin d’études 2  </h6>
+                    <h5 class="text-muted">EST, Guelmim</h5>
+                    <p> Mai. 2020</p>
+                    <p>
+                         <ul><li>Réalisation d’un site web pour la gestion de location de voitures.</li>
+                        <li>Technologies: laravel.</li></ul></p>
+                </div>
+                <div>
+                    <h6 class="fw-bold">Projet de fin d'études 1  </h6>
+                    <h5 class="text-muted">EST, GUelmim</h5>
+                   <p class="fw-bold"> Févr. 2020</p>
+                   <p> <ul>
+                    <li>Créer un site web qui permet l’amélioration et la facilitation la
+                    gestion des stagiaires de la société leurs stages.</li>
+                    <li>Technologies: Java, Html, Css, mySql, Boitstrap.</li>
+                </ul>
+            </p>
+                </div>
+                <div>
+                    <h6 class="fw-bold">Stage d'initiation </h6>
+                    <h5 class="text-muted">RAMSA, AGADIR</h5>
+                    <p class="fw-bold">Juil. 2019</p>
+                    <p>
+                        <ul>
+                            <li>Créer une programme en langage C qui permet de calculer la
+                       facture de l'eau.</li>
+                       <li>Technologies: C</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+               
+            </div>
+          </div>
+
+          <script>
+
+            const formations = []
+
+
+            let listFormations= document.getElementById("mesFormations")
+            let liFormation= document.createElement("li");
+            let listFormationsHTML=document.getElementById("listFormationsHTML")
+            
+           
+            let a=0;
+
+            
+        const boutonAdd = document.getElementById("add");
+        
+
+        function addFormation() {
+            
+            a=a+1
+            const pFormation=document.getElementById('formationInput').value;
+                const sFormation=document.getElementById('faculteInput').value;
+                const dFormation=document.getElementById('dateInput').value;
+
+           /* if (texteElement === "") {
+                alert("Veuillez entrer un élément à ajouter.");
+                return;
+            }*/
+if(pFormation&&sFormation&&dFormation){
+            formations.push({pFormation,sFormation,dFormation})
+        }
+                   console.log(formations)
+            
+            const liFormation = document.createElement("li");
+
+            liFormation.className="list-group-item list-group-item-secondary"
+            liFormation.innerHTML  += `<p><strong> ${pFormation}</strong>
+                        <br><strong class="fw-light text-muted">  ${sFormation}</strong>
+                        <br><strong class="fw-normal"> ${dFormation}</strong</p>`
+                            listFormationsHTML.appendChild(liFormation);
+            const boutonEdit = document.createElement("button");
+            boutonEdit.textContent = "";
+            boutonEdit.className = "btn btn-light bi bi-pencil-fill";
+            liFormation.appendChild(boutonEdit);
+
+            boutonEdit.addEventListener("click", function() {
+                document.getElementById('formationInput').value=liFormation.pFormation
+                
+
+            });
+            
+            const boutonSupprimer = document.createElement("button");
+            boutonSupprimer.textContent = "";
+            boutonSupprimer.className = "btn btn-light bi bi-trash3-fill";
+            liFormation.appendChild(boutonSupprimer);
+
+            
+
+            boutonSupprimer.addEventListener("click", function() {
+                listFormations.removeChild(liFormation);
+            });
+            
+
+            listFormations.appendChild(liFormation);
+            
+            Toastify({
+  text: "formation ajouté",
+  className: "info",
+  style: {
+    background: "linear-gradient(to right, #00b09b, #96c93d)",
+  }
+}).showToast();
+            document.getElementById('formationInput').value="";
+                document.getElementById('faculteInput').value="";
+                document.getElementById('dateInput').value="";
+        }
+
+         boutonAdd.addEventListener("click", addFormation);
+        
+            
+           /* function addFormation(){
+                a=a+1.
+                const pFormation=document.getElementById('formationInput').value;
+                const sFormation=document.getElementById('faculteInput').value;
+                const dFormation=document.getElementById('dateInput').value;
+
+                formations.push({pFormation,sFormation,dFormation})
+                   console.log(formations)
+                   
+                     liFormation.className="list-group-item list-group-item-secondary"
+                     liFormation.innerHTML  += `<p><strong> ${formations[a-1].pFormation}</strong>
+                        <br><strong class="fw-light text-muted">  ${formations[a-1].sFormation}</strong>
+                        <br><strong class="fw-normal"> ${formations[a-1].dFormation}</strong</p>
+                        <br><button onclick="modiffierFormation()" class="btn btn-light" ><i class="bi bi-pencil-fill"></i></button>`
+
+                   //liFormation.innerHTML  += ` ${formations[a-1].pFormation},  ${formations[a-1].sFormation},  ${formations[a-1].dFormation}`;  
+                     mesFormations.appendChild(liFormation);
+                     const boutonSupprimer = document.createElement("button");
+            boutonSupprimer.textContent = "";
+            boutonSupprimer.className = "bi bi-x-lg btn btn-light";
+            liFormation.appendChild(boutonSupprimer);
+
+            boutonSupprimer.addEventListener("click", function() {
+                mesFormations.removeChild(liFormation);
+                // Supprimer également l'objet du tableau
+                /*const index = formations.findIndex(formation => formation.pFormation === pFormation && formation.sFormation === sFormation && formation.dFormation === dFormation);
+                if (index !== -1) {
+                    formations.splice(index, 1);
+                }*//*});
+                mesFormations.appendChild(liFormation);
+
+               /* document.getElementById('pargFormation').textContent=pFormation;
+                document.getElementById('spacFormation').textContent=sFormation;
+                document.getElementById('datFormation').textContent=dFormation;*/
+                 
+               /* document.getElementById('formationInput').value="";
+                document.getElementById('faculteInput').value="";
+                document.getElementById('dateInput').value="";
+                    }*/
+
+                   /*  function supprimerFormation(index){
+                        
+                        console.log("hello")
+                    
+                       maFormation.removeChild(liFormation);
+                // Supprimer également l'objet du tableau
+                const index = formations.findIndex(formation => formation.pFormation === pFormation && formation.sFormation === sFormation && formation.dFormation === dFormation);
+                if (index !== -1) {
+                    formations.splice(index, 1);
+
+                        
+                } }*/
+
+            function genererPDF(){
+             const lastName = document.getElementById('lastName').value;
+             const firstName = document.getElementById('firstName').value;  
+            
+             const speciality=document.getElementById('specialityInput').value;
+             const description=document.getElementById('descriptionInput').value;
+             
+             const gmail=document.getElementById('gmailInput').value;
+             const address=document.getElementById('addressInput').value;
+             const tel=document.getElementById('telInput').value;
+             const competence=document.getElementById('competenceInput').value;
+             const langage = document.getElementById('langageInput').value; // Get langage input
+               
+             const elementHTML = document.getElementById('monCvHTML');
+
+             document.getElementById('myLastName').textContent=lastName;
+             document.getElementById('myFirstName').textContent=firstName;
+             document.getElementById('speciality').textContent=speciality;
+             document.getElementById('description').textContent=description;
+             document.getElementById('gmail').textContent=gmail;
+             document.getElementById('address').textContent=address;
+             document.getElementById('tel').textContent=tel;
+             document.getElementById('competence').textContent=competence;
+             // Select the languages paragraph
+             document.querySelector('#monCvHTML .col-4 p.lh-lg.text-end:last-of-type').textContent = langage; 
+            /* for(let i=0;i<formations.length;i++){
+             document.getElementById('cvFormation').textContent=formations[i].pFormation;
+             document.getElementById('cvFaculte').textContent= formations[i].sFormation;
+             document.getElementById('cvDate').textContent= formations[i].dFormation
+            }*/
+             // Clear existing formations in the HTML display
+            listFormationsHTML.innerHTML = '';
+            // Populate the HTML display for formations from the 'formations' array
+            formations.forEach(formation => {
+        const dt = document.createElement("dt");
+        dt.className = "fw-bold";
+        dt.textContent = formation.pFormation;
+        listFormationsHTML.appendChild(dt);
+
+        const ddFaculte = document.createElement("dd");
+        ddFaculte.className = "text-muted";
+        ddFaculte.textContent = formation.sFormation;
+        listFormationsHTML.appendChild(ddFaculte);
+
+        const ddDate = document.createElement("dd");
+        ddDate.textContent = formation.dFormation;
+        listFormationsHTML.appendChild(ddDate);
+    });
+            html2canvas(elementHTML).then(canvas => {
+    const imgData = canvas.toDataURL('image/png');
+    const { jsPDF } = window.jspdf;
+    const pdfDoc = new jsPDF('p', 'mm', 'a4');
+    const imgWidth = pdfDoc.internal.pageSize.getWidth();
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    
+    pdfDoc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+
+    
+            
+            
+            pdfDoc.save('CV.pdf');
+         })
+         .catch(error => {
+            console.error("Erreur lors de la génération du PDF :", error);
+            alert("Une erreur s'est produite lors de la génération du PDF. Veuillez consulter la console pour plus de détails."); // Informer l'utilisateur
+        });}
+            </script>
+         
+</body>
+
+
+<!--
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générer un PDF à partir de HTML</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    
+</head>
+<body>
+    <div class="form-group">
+        <label for="firstName">Prénom:</label>
+        <input type="text" id="firstName" name="firstName">
+    </div>
+    <div class="form-group">
+        <label for="lastName">Nom:</label>
+        <input type="text" id="lastName" name="lastName">
+    </div>
+    <div id="monContenu">
+        <h1>Titre Important</h1>
+        <p>Ceci est un paragraphe de texte avec du <strong>gras</strong> et de l'<em>italique</em>.</p>
+        <img src="https://via.placeholder.com/150" alt="Placeholder Image" style="margin-top: 10px;">
+    </div>
+    <table id="dataDisplay">
+        <thead>
+            <tr>
+                <th>Prénom</th>
+                <th>Nom</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="displayFirstName"></td>
+                <td id="displayLastName"></td>
+            </tr>
+        </tbody>
+    </table>
+    <button onclick="genererPDF()">Générer PDF</button>
+
+    <script>
+    function genererPDF() {
+        /*const firstName = document.getElementById('firstName').value;
+        const lastName = document.getElementById('lastName').value;*/
+        const elementHTML = document.getElementById('monContenu');
+
+        // Update the table with the input values
+        /*document.getElementById('displayFirstName').textContent = firstName;
+        document.getElementById('displayLastName').textContent = lastName;*/
+
+        html2canvas(elementHTML, {
+            useCORS: true,
+            allowTaint: false,
+        }).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdfDoc = new jsPDF('p', 'mm', 'a4');
+            const imgWidth = pdfDoc.internal.pageSize.getWidth();
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+            pdfDoc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+
+            // Add the name to the PDF
+            pdfDoc.setFontSize(20);
+            pdfDoc.setTextColor(0, 0, 0);
+            /*pdfDoc.text(`Prénom: ${firstName}`, 10, 20);
+            pdfDoc.text(`Nom: ${lastName}`, 10, 30);*/
+
+            pdfDoc.save('mon-document.pdf');
+        }).catch(error => {
+            console.error("Erreur lors de la génération du PDF :", error);
+            alert("Une erreur s'est produite lors de la génération du PDF. Veuillez consulter la console pour plus de détails.");
+        });
+    }
+    </script>
+</body>
+</html>
+-->
+
+
+   
+#   C V  
+ 
