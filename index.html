@@ -1,453 +1,685 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-    <meta charset="utf-8" >
-    <link rel="stylesheet" href="Bootstrap/node_modules/bootstrap/dist/css/Bootstrap.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Builder Pro</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.12.1/font/bootstrap-icons.min.css">
+    <!-- Toastify CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --light-bg: #f8f9fa;
+            --border-color: #dee2e6;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styles */
+        .navbar {
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            color: white !important;
+            font-weight: 600;
+            font-size: 1.5rem;
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,0.9) !important;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: white !important;
+        }
+
+        .navbar-toggler {
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            padding: 2rem 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .form-section, .preview-section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-control {
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-1px);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-links a:hover {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                justify-content: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+
+        /* Existing styles... */
+    </style>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
 <body>
-    <div>
-        <div class="row g-3" style="margin-top: 5%;">
-            <div class="col" style="margin-left: 3%; ">
-              <input type="text" id="lastName" class="form-control" placeholder="Last name"   aria-label="Last name" >
-              <input type="text" id="firstName" class="form-control" placeholder="First name"  aria-label="First name" style="margin-top: 3%;">
-              <input type="text" id="specialityInput" class="form-control" placeholder="speciality" style="margin-top: 3%;">
-              <input type="text" id="descriptionInput" class="form-control" placeholder="Description" aria-label="Last name" style="margin-top: 3%;">
-              <div class="border border-secondary" style="margin-top: 3%; ">
-                <h3>FORMATION</h3>
-                <div  style="margin-top: 3%;"><ul id="mesFormations" class="list-group">
-                    <!--<li id="linFormation" class="list-group-item list-group-item-secondary">
-                        <p><strong id="pargFormation">licence fondamentale en sciences
-                            mathématiques et Informatique</strong> <br>
-                            <strong id="spacFormation" class="fw-light text-muted">Faculté des Sciences, Agadirs</strong><br>
-                            <strong id="datFormation" class="fw-normal ">2020-2023</strong>  
-                         </p>
-                    </li>-->
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-file-earmark-text me-2"></i>
+                CV Builder Pro
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="bi bi-house-door me-1"></i>Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="bi bi-question-circle me-1"></i>Help</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="bi bi-info-circle me-1"></i>About</a>
+                    </li>
                 </ul>
             </div>
-                <input type="text" id="formationInput" class="form-control" placeholder="Formations"  aria-label="Last name" style="margin-top: 3%;width: 80%; margin-left: 3%;">
-                <input type="text" id="faculteInput" class="form-control" placeholder="Faculté" style="margin-top: 3%; width: 80%; margin-left: 3%;" >
-                <input type="date" id="dateInput" class="form-control" placeholder="Date" style="margin-top: 3%; margin-bottom: 3%; width: auto; margin-left: 3%;" >
-                <!--<button id="add" onclick="addFormation()" style="margin-top: 3%; margin-bottom: 3%; width: auto; margin-left: 3%;">Add</button>-->
-                <button id="add" style="margin-top: 3%; margin-bottom: 3%; width: auto; margin-left: 3%;">Add</button>
-            </div>
-            <input type="text" id="experienceInput" class="form-control" placeholder="Experiences" aria-label="Last name" style="margin-top: 3%;">
-            </div>
-            <div class="col" style="margin-right: 2%;">
-              <input type="image" class="form-control" placeholder="photos" aria-label="Last name">
-              <input type="email" id="gmailInput" class="form-control" placeholder="Gmail" aria-label="Last name" style="margin-top: 3%;">
-              <input type="text" id="addressInput" class="form-control" placeholder="Address" aria-label="Last name" style="margin-top: 3%;">
-              <input type="tel" id="telInput" class="form-control" placeholder="Tel" aria-label="Last name" style="margin-top: 3%;">
-              <input type="text" id="competenceInput" class="form-control" placeholder="Compétences" aria-label="Last name" style="margin-top: 3%;">
-              <input type="text" id="langageInput" class="form-control" placeholder="langages" aria-label="Last name" style="margin-top: 3%;">
-              <button type="button" class="btn btn-secondary btn-lg" onclick="genererPDF()" style="margin-top:3%;">generate pdf</button>
-            </div>
-          </div>
-</div>
-    <div id="monCvHTML" class="container px-6">
-        
-        <div class="row">
-            <div class="col-4"  style=" margin-top: 70px;">
-                    <img src="assets/img/Capture12.PNG" class="img-thumbnail rounded float-end " >
-                 <div class=" mt-6"  >
-                 
-                        <h5 class="text-end mt-6" style=" border: none; border-bottom: 1px solid #000000; border-radius: 0;" >CONTACT</h5>
-                
-                        <p class="text-end lh-lg" style="margin-top: 20px;">
-                            <span id="tel" style="display: inline-block;"> 0662890580</span> <i class="bi bi-telephone-fill" style="margin-left: 10px;"></i><br>
-                            <span id="gmail" style="display: inline-block;"> salwa@gmail.com</span><i class="bi bi-envelope" style="margin-left: 10px;"></i><br>
-                            <span id="address" style="display: inline-block;"> Agadir.Chtouka </span><i class="bi bi-geo-alt-fill" style="margin-left: 10px;"></i></p>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="row g-4">
+                <!-- Form Section -->
+                <div class="col-lg-5">
+                    <div class="form-section">
+                        <h2 class="section-title">CV Builder</h2>
+                        
+                        <!-- Personal Information -->
+                        <div class="mb-4">
+                            <h4 class="h5 mb-3">Personal Information</h4>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <input type="text" id="lastNameInput" class="form-control" placeholder="Last name">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" id="firstNameInput" class="form-control" placeholder="First name">
+                                </div>
+                            </div>
+                            <input type="text" id="specialityInput" class="form-control" placeholder="Speciality">
+                            <textarea id="descriptionInput" class="form-control" placeholder="Description" rows="3"></textarea>
+                        </div>
+
+                        <!-- Contact Information -->
+                        <div class="mb-4">
+                            <h4 class="h5 mb-3">Contact Information</h4>
+                            <div class="mb-3">
+                                <label class="form-label">Profile Image</label>
+                                <input type="file" class="form-control" id="profileImage" accept="image/*">
+                            </div>
+                            <input type="email" id="gmailInput" class="form-control" placeholder="Email">
+                            <input type="text" id="addressInput" class="form-control" placeholder="Address">
+                            <input type="tel" id="telInput" class="form-control" placeholder="Phone">
+                        </div>
+
+                        <!-- Skills -->
+                        <div class="mb-4">
+                            <h4 class="h5 mb-3">Skills & Languages</h4>
+                            <textarea id="competenceInput" class="form-control" placeholder="Skills (one per line)" rows="3"></textarea>
+                            <textarea id="langageInput" class="form-control" placeholder="Languages (one per line)" rows="3"></textarea>
+                        </div>
+
+                        <!-- Education -->
+                        <div class="mb-4">
+                            <h4 class="h5 mb-3">Education</h4>
+                            <div id="mesFormations" class="mb-3">
+                                <!-- Formations will be added here -->
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <input type="text" id="formationInput" class="form-control" placeholder="Degree/Formation">
+                                </div>
+                                <div class="col-12">
+                                    <input type="text" id="faculteInput" class="form-control" placeholder="Institution">
+                                </div>
+                                <div class="col-12">
+                                    <input type="date" id="dateInput" class="form-control">
+                                </div>
+                                <div class="col-12">
+                                    <button id="add" class="btn btn-primary w-100">
+                                        <i class="bi bi-plus-circle me-2"></i>Add Education
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Generate PDF Button -->
+                        <button type="button" class="btn btn-primary w-100" onclick="genererPDF()">
+                            <i class="bi bi-file-pdf me-2"></i>Generate PDF
+                        </button>
                     </div>
-                <div style="margin-top: 50px; "> 
-                    
-                    <h5 class="text-end" style="border: none; border-bottom: 1px solid #000000; border-radius: 0;">COMPÉTENCES</h5>
-                
-                    <p id="competence" class="lh-lg text-end" style="margin-top: 20px;" >
-                        Développement web
-                        Analyse de données
-                        Travail en équipe
-                        Gestion des bases de données
-                        Adaptabilité
-                    </p>
                 </div>
-                <div style="margin-top: 50px;">
-                    <h5 class="text-end text-uppercase" style="border: none; border-bottom: 1px solid #000000; border-radius: 0;"> langages</h5>
-                    <p class="lh-lg text-end" style="margin-top: 20px;"> 
-                        Français                      B2<br>
-                        Anglais                        B2<br>
-                        Allemand              Débutante
-                    </p>
-                 </div>
-            </div>
-          <div class="col-8" style=" margin-top: 50px; ">
-            <div class="" >
-                <h1 style="margin-top: 30px;" ><p  id="myLastName" class="text-capitalize">Hamzaoui</p> <p id="myFirstName" class="text-uppercase">SALWA</p></h1>  
-            </div> 
-                <div style="margin-top: 30px; " class="fw-bold">
-                    <em id="speciality" class="fs-6 text-uppercase  lh-lg " style="margin-bottom: 10px;">technicien D'informatique</em><br>
-                    <p id="description" class="fst-bolder lh-sm"> Salwa Hamzaoui, 25 ans, possède un double parcours académique en
-                        informatique et en mathématiques. Titulaire d'un Diplôme Supérieur en
-                        Informatique et d'une Licence en Sciences Mathématiques et
-                        Informatique, je suis capable de m'adapter rapidement à des
-                        environnements techniques variés et de résoudre des problèmes
-                        complexes.
-                    </p>
-                </div>
-                <div style="margin-top: 40px;">
-                    <h5 style="border: none;
-                    border-bottom: 1px solid #000000; 
-                    border-radius: 0;">FORMATION</h5>
-                    <div>
-                        <dl id="listFormationsHTML">
-                           <!-- <dt>
-                                <p><strong id="cvFormation" >licence fondamentale en sciences
-                                    mathématiques et Informatique</strong> <br>
-                                    <strong id="cvFaculte" class="fw-light text-muted">Faculté des Sciences, Agadirs</strong><br>
-                                    <strong id="cvDate" class="fw-normal ">2020-2023</strong> 
+
+                <!-- Preview Section -->
+                <div class="col-lg-7">
+                    <div class="preview-section">
+                        <div id="monCvHTML">
+                            <div class="row">
+                                <!-- Left Column -->
+                                <div class="col-md-4">
+                                    <div class="text-center mb-4">
+                                        <img id="previewImage" src="assets/img/Capture12.PNG" class="img-thumbnail rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
+                                    </div>
                                     
-                                 </p>
+                                    <h5 class="section-title">CONTACT</h5>
+                                    <p class="mb-3">
+                                        <span id="tel"></span>
+                                        <i class="bi bi-telephone-fill ms-2"></i><br>
+                                        <span id="gmail"></span>
+                                        <i class="bi bi-envelope ms-2"></i><br>
+                                        <span id="address"></span>
+                                        <i class="bi bi-geo-alt-fill ms-2"></i>
+                                    </p>
 
-                                </dt>>-->
-                        </dl>
-                    
-                </div>
-                <div>
-                    <h5 style="border: none; border-bottom: 1px solid #000000; border-radius: 0;"> EXPÉRIENCESPROFESSIONNELLES</h5>
-                    <div>
-                    <h6 class="fw-bold"> Projet de fin d’études  - Faculte des Sciences, Agadir</h6>
-                    <p> Juil. 2023 </p>
-                    <p><ul><li>Réalisation d’un site web d’e-Commerce.</li>
-                        <li>Technologies: React js, firebase, JavaScript, Html, CSS, Trello,
-                        Scrum, Figma.</li>
-                    </ul>
-                    </p>
-                </div>
-                <div>
-                    <h6 class="fw-bold"> Projet de fin d’études 2  </h6>
-                    <h5 class="text-muted">EST, Guelmim</h5>
-                    <p> Mai. 2020</p>
-                    <p>
-                         <ul><li>Réalisation d’un site web pour la gestion de location de voitures.</li>
-                        <li>Technologies: laravel.</li></ul></p>
-                </div>
-                <div>
-                    <h6 class="fw-bold">Projet de fin d'études 1  </h6>
-                    <h5 class="text-muted">EST, GUelmim</h5>
-                   <p class="fw-bold"> Févr. 2020</p>
-                   <p> <ul>
-                    <li>Créer un site web qui permet l’amélioration et la facilitation la
-                    gestion des stagiaires de la société leurs stages.</li>
-                    <li>Technologies: Java, Html, Css, mySql, Boitstrap.</li>
-                </ul>
-            </p>
-                </div>
-                <div>
-                    <h6 class="fw-bold">Stage d'initiation </h6>
-                    <h5 class="text-muted">RAMSA, AGADIR</h5>
-                    <p class="fw-bold">Juil. 2019</p>
-                    <p>
-                        <ul>
-                            <li>Créer une programme en langage C qui permet de calculer la
-                       facture de l'eau.</li>
-                       <li>Technologies: C</li>
-                    </ul>
-                    </p>
+                                    <h5 class="section-title">SKILLS</h5>
+                                    <p id="competence" class="mb-4"></p>
+
+                                    <h5 class="section-title">LANGUAGES</h5>
+                                    <p id="languages" class="mb-4"></p>
+                                </div>
+
+                                <!-- Right Column -->
+                                <div class="col-md-8">
+                                    <div class="mb-4">
+                                        <h1 class="mb-2">
+                                            <span id="myLastName" class="text-capitalize"></span>
+                                            <span id="myFirstName" class="text-uppercase d-block"></span>
+                                        </h1>
+                                        <p id="speciality" class="text-uppercase text-muted mb-3"></p>
+                                        <p id="description" class="mb-4"></p>
+                                    </div>
+
+                                    <h5 class="section-title">EDUCATION</h5>
+                                    <div id="listFormationsHTML" class="mb-4">
+                                        <!-- Education items will be added here -->
+                                    </div>
+
+                                    <h5 class="section-title">PROFESSIONAL EXPERIENCE</h5>
+                                    <div id="experienceList">
+                                        <!-- Experience items will be added here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-               
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="copyright">
+                    © 2024 CV Builder Pro. All rights reserved.
+                </div>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Contact Us</a>
+                </div>
+                <div class="social-links">
+                    <a href="#" title="Facebook"><i class="bi bi-facebook"></i></a>
+                    <a href="#" title="Twitter"><i class="bi bi-twitter"></i></a>
+                    <a href="#" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                    <a href="#" title="GitHub"><i class="bi bi-github"></i></a>
+                </div>
             </div>
-          </div>
-
-          <script>
-
-            const formations = []
-
-
-            let listFormations= document.getElementById("mesFormations")
-            let liFormation= document.createElement("li");
-            let listFormationsHTML=document.getElementById("listFormationsHTML")
-            
-           
-            let a=0;
-
-            
-        const boutonAdd = document.getElementById("add");
-        
-
-        function addFormation() {
-            
-            a=a+1
-            const pFormation=document.getElementById('formationInput').value;
-                const sFormation=document.getElementById('faculteInput').value;
-                const dFormation=document.getElementById('dateInput').value;
-
-           /* if (texteElement === "") {
-                alert("Veuillez entrer un élément à ajouter.");
-                return;
-            }*/
-if(pFormation&&sFormation&&dFormation){
-            formations.push({pFormation,sFormation,dFormation})
-        }
-                   console.log(formations)
-            
-            const liFormation = document.createElement("li");
-
-            liFormation.className="list-group-item list-group-item-secondary"
-            liFormation.innerHTML  += `<p><strong> ${pFormation}</strong>
-                        <br><strong class="fw-light text-muted">  ${sFormation}</strong>
-                        <br><strong class="fw-normal"> ${dFormation}</strong</p>`
-                            listFormationsHTML.appendChild(liFormation);
-            const boutonEdit = document.createElement("button");
-            boutonEdit.textContent = "";
-            boutonEdit.className = "btn btn-light bi bi-pencil-fill";
-            liFormation.appendChild(boutonEdit);
-
-            boutonEdit.addEventListener("click", function() {
-                document.getElementById('formationInput').value=liFormation.pFormation
-                
-
-            });
-            
-            const boutonSupprimer = document.createElement("button");
-            boutonSupprimer.textContent = "";
-            boutonSupprimer.className = "btn btn-light bi bi-trash3-fill";
-            liFormation.appendChild(boutonSupprimer);
-
-            
-
-            boutonSupprimer.addEventListener("click", function() {
-                listFormations.removeChild(liFormation);
-            });
-            
-
-            listFormations.appendChild(liFormation);
-            
-            Toastify({
-  text: "formation ajouté",
-  className: "info",
-  style: {
-    background: "linear-gradient(to right, #00b09b, #96c93d)",
-  }
-}).showToast();
-            document.getElementById('formationInput').value="";
-                document.getElementById('faculteInput').value="";
-                document.getElementById('dateInput').value="";
-        }
-
-         boutonAdd.addEventListener("click", addFormation);
-        
-            
-           /* function addFormation(){
-                a=a+1.
-                const pFormation=document.getElementById('formationInput').value;
-                const sFormation=document.getElementById('faculteInput').value;
-                const dFormation=document.getElementById('dateInput').value;
-
-                formations.push({pFormation,sFormation,dFormation})
-                   console.log(formations)
-                   
-                     liFormation.className="list-group-item list-group-item-secondary"
-                     liFormation.innerHTML  += `<p><strong> ${formations[a-1].pFormation}</strong>
-                        <br><strong class="fw-light text-muted">  ${formations[a-1].sFormation}</strong>
-                        <br><strong class="fw-normal"> ${formations[a-1].dFormation}</strong</p>
-                        <br><button onclick="modiffierFormation()" class="btn btn-light" ><i class="bi bi-pencil-fill"></i></button>`
-
-                   //liFormation.innerHTML  += ` ${formations[a-1].pFormation},  ${formations[a-1].sFormation},  ${formations[a-1].dFormation}`;  
-                     mesFormations.appendChild(liFormation);
-                     const boutonSupprimer = document.createElement("button");
-            boutonSupprimer.textContent = "";
-            boutonSupprimer.className = "bi bi-x-lg btn btn-light";
-            liFormation.appendChild(boutonSupprimer);
-
-            boutonSupprimer.addEventListener("click", function() {
-                mesFormations.removeChild(liFormation);
-                // Supprimer également l'objet du tableau
-                /*const index = formations.findIndex(formation => formation.pFormation === pFormation && formation.sFormation === sFormation && formation.dFormation === dFormation);
-                if (index !== -1) {
-                    formations.splice(index, 1);
-                }*//*});
-                mesFormations.appendChild(liFormation);
-
-               /* document.getElementById('pargFormation').textContent=pFormation;
-                document.getElementById('spacFormation').textContent=sFormation;
-                document.getElementById('datFormation').textContent=dFormation;*/
-                 
-               /* document.getElementById('formationInput').value="";
-                document.getElementById('faculteInput').value="";
-                document.getElementById('dateInput').value="";
-                    }*/
-
-                   /*  function supprimerFormation(index){
-                        
-                        console.log("hello")
-                    
-                       maFormation.removeChild(liFormation);
-                // Supprimer également l'objet du tableau
-                const index = formations.findIndex(formation => formation.pFormation === pFormation && formation.sFormation === sFormation && formation.dFormation === dFormation);
-                if (index !== -1) {
-                    formations.splice(index, 1);
-
-                        
-                } }*/
-
-            function genererPDF(){
-             const lastName = document.getElementById('lastName').value;
-             const firstName = document.getElementById('firstName').value;  
-            
-             const speciality=document.getElementById('specialityInput').value;
-             const description=document.getElementById('descriptionInput').value;
-             
-             const gmail=document.getElementById('gmailInput').value;
-             const address=document.getElementById('addressInput').value;
-             const tel=document.getElementById('telInput').value;
-             const competence=document.getElementById('competenceInput').value;
-             const langage = document.getElementById('langageInput').value; // Get langage input
-               
-             const elementHTML = document.getElementById('monCvHTML');
-
-             document.getElementById('myLastName').textContent=lastName;
-             document.getElementById('myFirstName').textContent=firstName;
-             document.getElementById('speciality').textContent=speciality;
-             document.getElementById('description').textContent=description;
-             document.getElementById('gmail').textContent=gmail;
-             document.getElementById('address').textContent=address;
-             document.getElementById('tel').textContent=tel;
-             document.getElementById('competence').textContent=competence;
-             // Select the languages paragraph
-             document.querySelector('#monCvHTML .col-4 p.lh-lg.text-end:last-of-type').textContent = langage; 
-            /* for(let i=0;i<formations.length;i++){
-             document.getElementById('cvFormation').textContent=formations[i].pFormation;
-             document.getElementById('cvFaculte').textContent= formations[i].sFormation;
-             document.getElementById('cvDate').textContent= formations[i].dFormation
-            }*/
-             // Clear existing formations in the HTML display
-            listFormationsHTML.innerHTML = '';
-            // Populate the HTML display for formations from the 'formations' array
-            formations.forEach(formation => {
-        const dt = document.createElement("dt");
-        dt.className = "fw-bold";
-        dt.textContent = formation.pFormation;
-        listFormationsHTML.appendChild(dt);
-
-        const ddFaculte = document.createElement("dd");
-        ddFaculte.className = "text-muted";
-        ddFaculte.textContent = formation.sFormation;
-        listFormationsHTML.appendChild(ddFaculte);
-
-        const ddDate = document.createElement("dd");
-        ddDate.textContent = formation.dFormation;
-        listFormationsHTML.appendChild(ddDate);
-    });
-            html2canvas(elementHTML).then(canvas => {
-    const imgData = canvas.toDataURL('image/png');
-    const { jsPDF } = window.jspdf;
-    const pdfDoc = new jsPDF('p', 'mm', 'a4');
-    const imgWidth = pdfDoc.internal.pageSize.getWidth();
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-    
-    pdfDoc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-
-    
-            
-            
-            pdfDoc.save('CV.pdf');
-         })
-         .catch(error => {
-            console.error("Erreur lors de la génération du PDF :", error);
-            alert("Une erreur s'est produite lors de la génération du PDF. Veuillez consulter la console pour plus de détails."); // Informer l'utilisateur
-        });}
-            </script>
-         
-</body>
-
-
-<!--
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Générer un PDF à partir de HTML</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    
-</head>
-<body>
-    <div class="form-group">
-        <label for="firstName">Prénom:</label>
-        <input type="text" id="firstName" name="firstName">
-    </div>
-    <div class="form-group">
-        <label for="lastName">Nom:</label>
-        <input type="text" id="lastName" name="lastName">
-    </div>
-    <div id="monContenu">
-        <h1>Titre Important</h1>
-        <p>Ceci est un paragraphe de texte avec du <strong>gras</strong> et de l'<em>italique</em>.</p>
-        <img src="https://via.placeholder.com/150" alt="Placeholder Image" style="margin-top: 10px;">
-    </div>
-    <table id="dataDisplay">
-        <thead>
-            <tr>
-                <th>Prénom</th>
-                <th>Nom</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td id="displayFirstName"></td>
-                <td id="displayLastName"></td>
-            </tr>
-        </tbody>
-    </table>
-    <button onclick="genererPDF()">Générer PDF</button>
+        </div>
+    </footer>
 
     <script>
-    function genererPDF() {
-        /*const firstName = document.getElementById('firstName').value;
-        const lastName = document.getElementById('lastName').value;*/
-        const elementHTML = document.getElementById('monContenu');
+        const formations = [];
+        let listFormations = document.getElementById("mesFormations");
+        let listFormationsHTML = document.getElementById("listFormationsHTML");
 
-        // Update the table with the input values
-        /*document.getElementById('displayFirstName').textContent = firstName;
-        document.getElementById('displayLastName').textContent = lastName;*/
-
-        html2canvas(elementHTML, {
-            useCORS: true,
-            allowTaint: false,
-        }).then(canvas => {
-            const imgData = canvas.toDataURL('image/png');
-            const pdfDoc = new jsPDF('p', 'mm', 'a4');
-            const imgWidth = pdfDoc.internal.pageSize.getWidth();
-            const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-            pdfDoc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-
-            // Add the name to the PDF
-            pdfDoc.setFontSize(20);
-            pdfDoc.setTextColor(0, 0, 0);
-            /*pdfDoc.text(`Prénom: ${firstName}`, 10, 20);
-            pdfDoc.text(`Nom: ${lastName}`, 10, 30);*/
-
-            pdfDoc.save('mon-document.pdf');
-        }).catch(error => {
-            console.error("Erreur lors de la génération du PDF :", error);
-            alert("Une erreur s'est produite lors de la génération du PDF. Veuillez consulter la console pour plus de détails.");
+        // Add image preview functionality
+        document.getElementById('profileImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('previewImage').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
         });
-    }
+
+        // Update the addFormation function
+        function addFormation() {
+            const pFormation = document.getElementById('formationInput').value.trim();
+            const sFormation = document.getElementById('faculteInput').value.trim();
+            const dFormation = document.getElementById('dateInput').value;
+
+            if (!pFormation || !sFormation || !dFormation) {
+                showToast("Please fill all education fields", "error");
+                return;
+            }
+
+            formations.push({pFormation, sFormation, dFormation});
+
+            // Create formation item for the form list
+            const formationItem = document.createElement("div");
+            formationItem.className = "card mb-3";
+            formationItem.innerHTML = `
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h6 class="card-title mb-1">${pFormation}</h6>
+                            <p class="card-text text-muted mb-1">${sFormation}</p>
+                            <small class="text-muted">${formatDate(dFormation)}</small>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-outline-primary edit-formation">
+                                <i class="bi bi-pencil-fill"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger delete-formation">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('mesFormations').appendChild(formationItem);
+
+            // Add event listeners for edit and delete buttons
+            formationItem.querySelector('.edit-formation').addEventListener('click', function() {
+                document.getElementById('formationInput').value = pFormation;
+                document.getElementById('faculteInput').value = sFormation;
+                document.getElementById('dateInput').value = dFormation;
+                formationItem.remove();
+                const index = formations.findIndex(f => 
+                    f.pFormation === pFormation && 
+                    f.sFormation === sFormation && 
+                    f.dFormation === dFormation
+                );
+                if (index !== -1) {
+                    formations.splice(index, 1);
+                }
+            });
+
+            formationItem.querySelector('.delete-formation').addEventListener('click', function() {
+                if (confirm('Are you sure you want to delete this education entry?')) {
+                    formationItem.remove();
+                    const index = formations.findIndex(f => 
+                        f.pFormation === pFormation && 
+                        f.sFormation === sFormation && 
+                        f.dFormation === dFormation
+                    );
+                    if (index !== -1) {
+                        formations.splice(index, 1);
+                    }
+                    showToast("Education entry deleted", "success");
+                }
+            });
+
+            // Clear inputs
+            document.getElementById('formationInput').value = "";
+            document.getElementById('faculteInput').value = "";
+            document.getElementById('dateInput').value = "";
+
+            showToast("Education added successfully", "success");
+        }
+
+        // Helper function to format date
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long' };
+            return new Date(dateString).toLocaleDateString(undefined, options);
+        }
+
+        // Helper function to show toast messages
+        function showToast(message, type = "success") {
+            const styles = {
+                success: "linear-gradient(to right, #00b09b, #96c93d)",
+                error: "linear-gradient(to right, #ff5f6d, #ffc371)",
+                info: "linear-gradient(to right, #2193b0, #6dd5ed)"
+            };
+
+            Toastify({
+                text: message,
+                duration: 3000,
+                gravity: "top",
+                position: "right",
+                className: type,
+                style: {
+                    background: styles[type],
+                    borderRadius: "5px",
+                    fontWeight: "500"
+                }
+            }).showToast();
+        }
+
+        // Update the PDF generation function
+        function genererPDF() {
+            // Validate required fields
+            const requiredFields = {
+                lastName: "Last name",
+                firstName: "First name",
+                speciality: "Speciality",
+                description: "Description",
+                gmail: "Email",
+                tel: "Phone"
+            };
+
+            console.log("Starting PDF generation...");
+
+            for (const [id, label] of Object.entries(requiredFields)) {
+                const value = document.getElementById(id+"Input").value.trim();
+                if (!value) {
+                    showToast(`Please fill in your ${label}`, "error");
+                    return;
+                }
+            }
+
+            // Update preview with form values
+            const formData = {
+                lastName: document.getElementById('lastNameInput').value.trim(),
+                firstName: document.getElementById('firstNameInput').value.trim(),
+                speciality: document.getElementById('specialityInput').value.trim(),
+                description: document.getElementById('descriptionInput').value.trim(),
+                gmail: document.getElementById('gmailInput').value.trim(),
+                address: document.getElementById('addressInput').value.trim(),
+                tel: document.getElementById('telInput').value.trim(),
+                competence: document.getElementById('competenceInput').value.trim(),
+                langage: document.getElementById('langageInput').value.trim()
+            };
+
+            // Update preview elements
+            Object.keys(formData).forEach(key => {
+                const element = document.getElementById(key === 'langage' ? 'languages' : key);
+                if (element) {
+                    element.textContent = formData[key];
+                }
+            });
+
+            // Update name elements
+            document.getElementById('myLastName').textContent = formData.lastName;
+            document.getElementById('myFirstName').textContent = formData.firstName;
+            document.getElementById('speciality').textContent = formData.speciality;
+            document.getElementById('description').textContent = formData.description;
+
+            // Update education section
+            const educationList = document.getElementById('listFormationsHTML');
+            educationList.innerHTML = '';
+            formations.forEach(formation => {
+                const educationItem = document.createElement('div');
+                educationItem.className = 'mb-3';
+                educationItem.innerHTML = `
+                    <h6 class="mb-1">${formation.pFormation}</h6>
+                    <p class="text-muted mb-1">${formation.sFormation}</p>
+                    <small>${formatDate(formation.dFormation)}</small>
+                `;
+                educationList.appendChild(educationItem);
+            });
+
+            // Show loading toast
+            showToast("Generating PDF...", "info");
+
+            // Get the element to convert
+            const element = document.getElementById('monCvHTML');
+            
+            // Store original styles
+            const originalStyles = {
+                width: element.style.width,
+                height: element.style.height,
+                transform: element.style.transform,
+                position: element.style.position,
+                padding: element.style.padding,
+                margin: element.style.margin,
+                backgroundColor: element.style.backgroundColor
+            };
+
+            // Set styles for PDF generation
+            Object.assign(element.style, {
+                width: '210mm',
+                height: 'auto',
+                transform: 'none',
+                position: 'relative',
+                backgroundColor: '#ffffff',
+                padding: '20mm',
+                margin: '0',
+                boxShadow: 'none',
+                borderRadius: '0'
+            });
+
+            // Ensure all text is visible
+            const textElements = element.getElementsByTagName('*');
+            for (let i = 0; i < textElements.length; i++) {
+                const style = window.getComputedStyle(textElements[i]);
+                if (style.color === 'rgba(0, 0, 0, 0)') {
+                    textElements[i].style.color = '#000000';
+                }
+            }
+
+            // Generate PDF
+            html2canvas(element, {
+                scale: 2,
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: '#ffffff',
+                logging: true,
+                windowWidth: element.scrollWidth,
+                windowHeight: element.scrollHeight,
+                onclone: function(clonedDoc) {
+                    // Ensure all images are loaded in the cloned document
+                    const images = clonedDoc.getElementsByTagName('img');
+                    for (let i = 0; i < images.length; i++) {
+                        if (!images[i].complete) {
+                            images[i].src = images[i].src;
+                        }
+                    }
+                }
+            }).then(canvas => {
+                // Restore original styles
+                Object.assign(element.style, originalStyles);
+
+                try {
+                    const imgData = canvas.toDataURL('image/jpeg', 1.0);
+                    const { jsPDF } = window.jspdf;
+                    
+                    // Create PDF with proper orientation
+                    const pdf = new jsPDF({
+                        orientation: 'portrait',
+                        unit: 'mm',
+                        format: 'a4'
+                    });
+
+                    // Calculate dimensions
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = pdf.internal.pageSize.getHeight();
+                    const imgWidth = canvas.width;
+                    const imgHeight = canvas.height;
+                    
+                    // Calculate scaling to fit the page while maintaining aspect ratio
+                    const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+                    const scaledWidth = imgWidth * ratio;
+                    const scaledHeight = imgHeight * ratio;
+                    
+                    // Center the content
+                    const x = (pdfWidth - scaledWidth) / 2;
+                    const y = 0;
+
+                    // Add the image to the PDF
+                    pdf.addImage(imgData, 'JPEG', x, y, scaledWidth, scaledHeight);
+
+                    // If content is too long, add new pages
+                    if (scaledHeight > pdfHeight) {
+                        const pageCount = Math.ceil(scaledHeight / pdfHeight);
+                        for (let i = 1; i < pageCount; i++) {
+                            pdf.addPage();
+                            pdf.addImage(
+                                imgData,
+                                'JPEG',
+                                x,
+                                -(pdfHeight * i),
+                                scaledWidth,
+                                scaledHeight
+                            );
+                        }
+                    }
+
+                    // Save the PDF
+                    pdf.save('CV.pdf');
+                    showToast("PDF generated successfully", "success");
+                } catch (error) {
+                    console.error("Error creating PDF:", error);
+                    showToast("Error creating PDF. Please try again.", "error");
+                    // Restore original styles in case of error
+                    Object.assign(element.style, originalStyles);
+                }
+            }).catch(error => {
+                console.error("Error generating canvas:", error);
+                showToast("Error generating PDF. Please try again.", "error");
+                // Restore original styles in case of error
+                Object.assign(element.style, originalStyles);
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('add').addEventListener('click', addFormation);
+            
+            // Add input validation
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    this.classList.toggle('is-invalid', !this.value.trim());
+                });
+            });
+        });
     </script>
 </body>
 </html>
--->
-
-
-   
-#   C V  
- 
