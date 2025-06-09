@@ -246,8 +246,35 @@
                         <!-- Skills -->
                         <div class="mb-4">
                             <h4 class="h5 mb-3">Skills & Languages</h4>
-                            <textarea id="competenceInput" class="form-control" placeholder="Skills (one per line)" rows="3"></textarea>
-                            <textarea id="langageInput" class="form-control" placeholder="Languages (one per line)" rows="3"></textarea>
+                            <div class="mb-3">
+                                <div class="input-group">
+                                    <input type="text" id="skillInput" class="form-control" placeholder="Add a skill">
+                                    <button class="btn btn-primary" id="addSkill">
+                                        <i class="bi bi-plus-circle me-1"></i>Add
+                                    </button>
+                                </div>
+                                <div id="skillsList" class="mt-3">
+                                    <!-- Skills will be added here -->
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <h5 class="h6 mb-2">Languages</h5>
+                                <div class="input-group">
+                                    <input type="text" id="languageInput" class="form-control" placeholder="Language">
+                                    <select class="form-select" id="languageLevel" style="max-width: 150px;">
+                                        <option value="Beginner">Beginner</option>
+                                        <option value="Intermediate">Intermediate</option>
+                                        <option value="Advanced">Advanced</option>
+                                        <option value="Native">Native</option>
+                                    </select>
+                                    <button class="btn btn-primary" id="addLanguage">
+                                        <i class="bi bi-plus-circle me-1"></i>Add
+                                    </button>
+                                </div>
+                                <div id="languagesList" class="mt-3">
+                                    <!-- Languages will be added here -->
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Education -->
@@ -482,6 +509,118 @@
             }).showToast();
         }
 
+        // Skills and Languages Management
+        const skills = [];
+        const languages = [];
+
+        // Add Skill
+        document.getElementById('addSkill').addEventListener('click', function() {
+            const skillInput = document.getElementById('skillInput');
+            const skill = skillInput.value.trim();
+            
+            if (skill) {
+                if (!skills.includes(skill)) {
+                    skills.push(skill);
+                    updateSkillsList();
+                    skillInput.value = '';
+                    showToast("Skill added successfully", "success");
+                } else {
+                    showToast("This skill already exists", "error");
+                }
+            } else {
+                showToast("Please enter a skill", "error");
+            }
+        });
+
+        // Add Language
+        document.getElementById('addLanguage').addEventListener('click', function() {
+            const languageInput = document.getElementById('languageInput');
+            const levelSelect = document.getElementById('languageLevel');
+            const language = languageInput.value.trim();
+            const level = levelSelect.value;
+            
+            if (language) {
+                const languageObj = { language, level };
+                if (!languages.some(l => l.language === language)) {
+                    languages.push(languageObj);
+                    updateLanguagesList();
+                    languageInput.value = '';
+                    showToast("Language added successfully", "success");
+                } else {
+                    showToast("This language already exists", "error");
+                }
+            } else {
+                showToast("Please enter a language", "error");
+            }
+        });
+
+        // Update Skills List
+        function updateSkillsList() {
+            const skillsList = document.getElementById('skillsList');
+            skillsList.innerHTML = '';
+            
+            skills.forEach((skill, index) => {
+                const skillItem = document.createElement('div');
+                skillItem.className = 'card mb-2';
+                skillItem.innerHTML = `
+                    <div class="card-body py-2 px-3 d-flex justify-content-between align-items-center">
+                        <span>${skill}</span>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-outline-danger delete-skill" data-index="${index}">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                skillsList.appendChild(skillItem);
+            });
+
+            // Add event listeners for delete buttons
+            document.querySelectorAll('.delete-skill').forEach(button => {
+                button.addEventListener('click', function() {
+                    const index = this.getAttribute('data-index');
+                    skills.splice(index, 1);
+                    updateSkillsList();
+                    showToast("Skill removed", "success");
+                });
+            });
+        }
+
+        // Update Languages List
+        function updateLanguagesList() {
+            const languagesList = document.getElementById('languagesList');
+            languagesList.innerHTML = '';
+            
+            languages.forEach((lang, index) => {
+                const languageItem = document.createElement('div');
+                languageItem.className = 'card mb-2';
+                languageItem.innerHTML = `
+                    <div class="card-body py-2 px-3 d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="fw-bold">${lang.language}</span>
+                            <span class="badge bg-primary ms-2">${lang.level}</span>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-outline-danger delete-language" data-index="${index}">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                languagesList.appendChild(languageItem);
+            });
+
+            // Add event listeners for delete buttons
+            document.querySelectorAll('.delete-language').forEach(button => {
+                button.addEventListener('click', function() {
+                    const index = this.getAttribute('data-index');
+                    languages.splice(index, 1);
+                    updateLanguagesList();
+                    showToast("Language removed", "success");
+                });
+            });
+        }
+
         // Update the PDF generation function
         function genererPDF() {
             // Validate required fields
@@ -513,8 +652,8 @@
                 gmail: document.getElementById('gmailInput').value.trim(),
                 address: document.getElementById('addressInput').value.trim(),
                 tel: document.getElementById('telInput').value.trim(),
-                competence: document.getElementById('competenceInput').value.trim(),
-                langage: document.getElementById('langageInput').value.trim()
+                competence: skills.join('\n'),
+                langage: languages.map(lang => `${lang.language} - ${lang.level}`).join('\n')
             };
 
             // Update preview elements
@@ -679,6 +818,19 @@
                     this.classList.toggle('is-invalid', !this.value.trim());
                 });
             });
+        });
+
+        // Add keyboard support for adding skills and languages
+        document.getElementById('skillInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('addSkill').click();
+            }
+        });
+
+        document.getElementById('languageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('addLanguage').click();
+            }
         });
     </script>
 </body>
