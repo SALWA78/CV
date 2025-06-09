@@ -172,6 +172,40 @@
         }
 
         /* Existing styles... */
+        .contact-info {
+            font-size: 0.95rem;
+        }
+        .contact-info i {
+            width: 20px;
+            text-align: center;
+        }
+        .contact-info span {
+            color: var(--secondary-color);
+        }
+
+        .skills-list, .languages-list {
+            font-size: 0.95rem;
+        }
+        .skill-item, .language-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+        .skill-item:before {
+            content: "•";
+            color: var(--accent-color);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        .language-item {
+            justify-content: space-between;
+        }
+        .language-level {
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            font-weight: 500;
+        }
     </style>
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -320,20 +354,30 @@
                                     </div>
                                     
                                     <h5 class="section-title">CONTACT</h5>
-                                    <p class="mb-3">
-                                        <span id="tel"></span>
-                                        <i class="bi bi-telephone-fill ms-2"></i><br>
-                                        <span id="gmail"></span>
-                                        <i class="bi bi-envelope ms-2"></i><br>
-                                        <span id="address"></span>
-                                        <i class="bi bi-geo-alt-fill ms-2"></i>
-                                    </p>
+                                    <div class="contact-info">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="bi bi-telephone-fill me-2 text-primary"></i>
+                                            <span id="tel"></span>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="bi bi-envelope-fill me-2 text-primary"></i>
+                                            <span id="gmail"></span>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="bi bi-geo-alt-fill me-2 text-primary"></i>
+                                            <span id="address"></span>
+                                        </div>
+                                    </div>
 
                                     <h5 class="section-title">SKILLS</h5>
-                                    <p id="competence" class="mb-4"></p>
+                                    <div class="skills-list">
+                                        <div id="competence" class="mb-3"></div>
+                                    </div>
 
                                     <h5 class="section-title">LANGUAGES</h5>
-                                    <p id="languages" class="mb-4"></p>
+                                    <div class="languages-list">
+                                        <div id="languages" class="mb-3"></div>
+                                    </div>
                                 </div>
 
                                 <!-- Right Column -->
@@ -683,6 +727,21 @@
                 `;
                 educationList.appendChild(educationItem);
             });
+
+            // Update skills display
+            const competenceElement = document.getElementById('competence');
+            competenceElement.innerHTML = skills.map(skill => 
+                `<div class="skill-item">${skill}</div>`
+            ).join('');
+
+            // Update languages display
+            const languagesElement = document.getElementById('languages');
+            languagesElement.innerHTML = languages.map(lang => 
+                `<div class="language-item">
+                    <span>${lang.language}</span>
+                    <span class="language-level">${lang.level}</span>
+                </div>`
+            ).join('');
 
             // Show loading toast
             showToast("Generating PDF...", "info");
